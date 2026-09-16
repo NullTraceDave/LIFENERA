@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIFENERA | YouTube Shorts Tracker</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: #f7f4ef;
+      color: #1a3c2a;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: #1a3c2a;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: #5a7a65;
+      font-size: 15px;
+    }
+
+    .input-section {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 14px 16px;
+      border: 2px solid #d4e0d7;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #2e7d4f;
+    }
+
+    button {
+      background: #2e7d4f;
+      color: white;
+      border: none;
+      padding: 0 22px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #246b42;
+    }
+
+    .video-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .video-info h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+      color: #1a3c2a;
+    }
+
+    .video-info a {
+      font-size: 13px;
+      color: #2e7d4f;
+      text-decoration: none;
+    }
+
+    .stats {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+      color: #5a7a65;
+    }
+
+    .stats span {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stats strong {
+      font-size: 16px;
+      color: #1a3c2a;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px;
+      color: #8aa392;
+      font-size: 15px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #8aa392;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>LIFENERA Tracker</h1>
+      <p>Monitor your YouTube Shorts performance</p>
+    </header>
+
+    <div class="input-section">
+      <div class="input-group">
+        <input type="text" id="videoUrl" placeholder="Paste YouTube Shorts link here...">
+        <button onclick="addVideo()">Add Video</button>
+      </div>
+    </div>
+
+    <div class="video-list" id="videoList">
+      <div class="empty">No videos added yet. Paste a link above to start tracking.</div>
+    </div>
+
+    <footer>
+      Built for LIFENERA • Free to use on GitHub Pages
+    </footer>
+  </div>
+
+  <script>
+    // Load saved videos
+    let videos = JSON.parse(localStorage.getItem('lifenera_videos')) || [];
+
+    function renderVideos() {
+      const list = document.getElementById('videoList');
+      
+      if (videos.length === 0) {
+        list.innerHTML = `<div class="empty">No videos added
